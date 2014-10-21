@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 const path = "/"
@@ -35,7 +36,8 @@ func getName(n uint64) string {
 
 func post(content []byte) (string, error) {
 	name := getName(dirs)
-	err := ioutil.WriteFile(dir+name, content, 0644)
+	err := os.Mkdir(dir, os.ModeDir+0777)
+	err = ioutil.WriteFile(dir+name, content, 0644)
 	if err != nil {
 		log.Println(err)
 		log.Fatal("Error writing file")
