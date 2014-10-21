@@ -15,7 +15,7 @@ const dir = "pastes/"
 
 var dirs uint64
 
-func get(key string) string {
+func read(key string) string {
 	// ReadFile only works in subdirs (we won't read /etc/passwd)
 	data, err := ioutil.ReadFile(dir + key)
 	if err != nil {
@@ -48,7 +48,7 @@ func post(content []byte) (string, error) {
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
 	k := r.URL.Path[1:]
-	fmt.Fprintf(w, get(k))
+	fmt.Fprintf(w, read(k))
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
