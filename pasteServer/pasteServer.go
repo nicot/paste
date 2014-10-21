@@ -55,11 +55,20 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	content := make([]byte, r.ContentLength)
 	_, err := r.Body.Read(content)
 	if err != nil {
-		fmt.Fprintf(w, "Error reading POST")
+		fmt.Fprintf(w, "Error reading POST\n")
+		//w.Status = 500
+		return
+	}
+	if len(content) == 0 {
+		fmt.Fprintf(w, "Empty response not saved\n")
+		//w.Status = 500
+		return
 	}
 	name, err := post(content)
 	if err != nil {
-		fmt.Fprintf(w, "Error writing content")
+		fmt.Fprintf(w, "Error writing content\n")
+		//w.Status = 500
+		return
 	}
 	fmt.Fprintf(w, name+"\n")
 }
