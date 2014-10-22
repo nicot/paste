@@ -1,3 +1,4 @@
+// Write some tests
 package main
 
 import (
@@ -16,7 +17,6 @@ const dir = "pastes/"
 var dirs uint64
 
 func read(key string) string {
-	// ReadFile only works in subdirs (we won't read /etc/passwd)
 	data, err := ioutil.ReadFile(dir + key)
 	if err != nil {
 		log.Printf("File not found")
@@ -55,19 +55,19 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	content := make([]byte, r.ContentLength)
 	_, err := r.Body.Read(content)
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error reading POST\n")
-		//w.Status = 500
 		return
 	}
 	if len(content) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Empty response not saved\n")
-		//w.Status = 500
 		return
 	}
 	name, err := post(content)
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error writing content\n")
-		//w.Status = 500
 		return
 	}
 	fmt.Fprintf(w, name+"\n")
