@@ -24,7 +24,7 @@ func read(key string) string {
 	return string(data)
 }
 
-func getName(n uint64) string {
+func GetName(n uint64) string {
 	s := ""
 	for (n > 0) || (len(s) == 0) {
 		c := string(n%26 + 'a')
@@ -35,7 +35,7 @@ func getName(n uint64) string {
 }
 
 func post(content []byte) (string, error) {
-	name := getName(dirs)
+	name := GetName(dirs)
 	err := os.Mkdir(dir, os.ModeDir+0777)
 	err = ioutil.WriteFile(dir+name, content, 0644)
 	if err != nil {
