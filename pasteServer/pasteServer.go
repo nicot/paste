@@ -1,4 +1,5 @@
 // Write some tests
+// Don't overwrite files if we restart service
 package main
 
 import (
@@ -54,7 +55,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 func postHandler(w http.ResponseWriter, r *http.Request) {
 	content := make([]byte, r.ContentLength)
 	_, err := r.Body.Read(content)
-	if err != nil {
+	if err != nil && err.Error() != "EOF" {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error reading POST\n")
 		return
@@ -70,7 +71,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error writing content\n")
 		return
 	}
-	fmt.Fprintf(w, name+"\n")
+	fmt.Printf("%v\n", r.Host)
+	fmt.Fprintf(w, r.Host+"/"+name+"\n")
 }
 
 func main() {
