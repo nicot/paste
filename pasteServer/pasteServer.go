@@ -57,7 +57,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	_, err := r.Body.Read(content)
 	if err != nil && err.Error() != "EOF" {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Error reading POST\n")
+		fmt.Fprintf(w, "Error reading POST: %v\n", err)
 		return
 	}
 	if len(content) == 0 {
@@ -71,7 +71,6 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error writing content\n")
 		return
 	}
-	fmt.Printf("%v\n", r.Host)
 	fmt.Fprintf(w, r.Host+"/"+name+"\n")
 }
 
