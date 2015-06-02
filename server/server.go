@@ -4,11 +4,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 const path = "/"
@@ -25,7 +26,7 @@ func read(key string) string {
 	return string(data)
 }
 
-func GetName(n uint64) string {
+func getName(n uint64) string {
 	s := ""
 	for (n > 0) || (len(s) == 0) {
 		c := string(n%26 + 'a')
@@ -36,7 +37,7 @@ func GetName(n uint64) string {
 }
 
 func post(content []byte) (string, error) {
-	name := GetName(dirs)
+	name := getName(dirs)
 	err := os.Mkdir(dir, os.ModeDir+0777)
 	err = ioutil.WriteFile(dir+name, content, 0644)
 	if err != nil {
